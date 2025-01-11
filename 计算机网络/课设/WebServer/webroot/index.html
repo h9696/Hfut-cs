@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>和平精英-网易游戏</title>
+  <link id="icon" rel="shortcut icon" href="https://ys.mihoyo.com/main/favicon.ico">
+  <style>
+    /* Reset CSS */
+    body,
+    h1,
+    h2,
+    h3,
+    ul,
+    ol,
+    li,
+    p,
+    dl,
+    dt,
+    dd,
+    a,
+    img,
+    i,
+    em {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      text-decoration: none;
+      vertical-align: top;
+      font-style: normal;
+      box-sizing: border-box;
+    }
+
+    /* Global Styles */
+    body {
+      font: 14px/1.5 "Microsoft YaHei", Tahoma, "simsun", sans-serif;
+      color: #333;
+      background-color: #f5f5f5;
+    }
+
+    a {
+      color: #333;
+    }
+
+    /* Wrapper Styles */
+    .top_wrapper,
+    .header_wrapper,
+    .main_wrapper {
+      margin: 0 auto;
+      max-width: 1200px;
+    }
+
+    /* Utility Classes */
+    .nowrap_ellipsis {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    /* News Type Styles */
+    .news_type::before {
+      display: inline-block;
+      width: 32px;
+      height: 16px;
+      margin-right: 2px;
+      line-height: 16px;
+      text-align: center;
+      font-size: 12px;
+      border: 1px solid;
+      border-radius: 2px;
+    }
+
+    .news_type_hot::before {
+      content: "热门";
+      color: #ff3636;
+      border-color: #ff3636;
+    }
+
+    .news_type_notice::before {
+      content: "公告";
+      color: #f4be19;
+      border-color: #f4be19;
+    }
+
+    .news_type_news::before {
+      content: "新闻";
+      color: #1e96ab;
+      border-color: #1e96ab;
+    }
+
+    .news_type_match {
+      display: inline-block;
+      width: 52px;
+      height: 23px;
+      margin-right: 12px;
+      border-radius: 10px;
+      line-height: 23px;
+      text-align: center;
+      color: #999;
+      font-size: 12px;
+      background-color: #e3e3e3;
+    }
+
+    /* Section Header */
+    .section_header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .section_header .title {
+      font-size: 22px;
+      color: #323235;
+      padding-left: 30px;
+      background: url(../img/main_sprite.png) no-repeat 0 -102px;
+    }
+
+    .section_header .title-icon-match {
+      background-position: 0 -180px;
+    }
+
+    .section_header .title-icon-hero {
+      background-position: 0 -139px;
+    }
+
+    .section_header .more {
+      padding-left: 22px;
+      background: url(../img/main_sprite.png) no-repeat -252px 4px;
+      transition: color 0.3s;
+    }
+
+    .section_header .more:hover {
+      color: #f3c258;
+    }
+
+    /* Tab Control Styles */
+    .tab_control {
+      display: flex;
+      align-items: center;
+      height: 32px;
+      line-height: 29px;
+      background-color: #f5f5f5;
+    }
+
+    .tab_control .item {
+      flex: 1;
+      color: #999;
+      text-align: center;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+    }
+
+    .tab_control .item_wrap {
+      padding: 0 27px;
+      flex: 0 auto;
+    }
+
+    .tab_control .item.active {
+      color: #333;
+      border-bottom-color: #f3c258;
+    }
+
+    .tab_control .line {
+      width: 1px;
+      height: 20px;
+      background-color: #e1e1e1;
+    }
+
+    /* Tab Keyword Styles */
+    .tab_keyword {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .tab_keyword .item {
+      height: 24px;
+      line-height: 24px;
+      margin: 0 8px 10px 0;
+      padding: 0 15px;
+      background-color: #f5f5f5;
+      border: 1px solid #e5e5e5;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .tab_keyword .item:hover,
+    .tab_keyword .item.active {
+      color: #fff;
+      background-color: #f3c258;
+      border-color: #f3c258;
+    }
+
+    /* Icon Types */
+    .icon_type {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      margin-right: 2px;
+      background: url(../img/main_sprite.png) no-repeat;
+    }
+
+    .icon_type_hot {
+      background-position: -162px -67px;
+    }
+
+    .icon_type_fans {
+      background-position: -135px -68px;
+    }
+
+    .icon_type_guard {
+      background-position: -134px -5px;
+    }
+
+    /* Main Section */
+    .main {
+      height: 100px;
+    }
+
+    .news-section {
+      display: flex;
+      gap: 20px;
+    }
+
+    .news-section .banner {
+      width: 605px;
+      background-color: #000;
+      overflow: hidden;
+    }
+
+    .news-section .image-list {
+      display: flex;
+      transition: transform 0.3s ease;
+    }
+
+    .news-section .image-list .item {
+      min-width: 100%;
+    }
+
+    .news-section .image-list .item img {
+      width: 100%;
+      display: block;
+    }
+
+    .news-section .title-list {
+      display: flex;
+      justify-content: space-between;
+      height: 44px;
+      line-height: 44px;
+    }
+
+    .news-section .title-list .item {
+      flex: 1;
+      text-align: center;
+    }
+
+    .news-section .title-list .item a {
+      display: block;
+      font-size: 14px;
+      color: #b1b2be;
+      transition: color 0.3s, background-color 0.3s;
+    }
+
+    .news-section .title-list .item.active a,
+    .news-section .title-list .item a:hover {
+      color: #f3c258;
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .news-section .news {
+      flex: 1;
+      background-color: #f3c258;
+    }
+
+    .news-section .download {
+      width: 236px;
+      background-color: #999;
+    }
+
+    .news-section .download a {
+      display: block;
+      /* background: url(./img/main_sprite.png) no-repeat; */
+    }
+
+    .news-section .download a.download-btn {
+      height: 128px;
+      background-position: 0 -219px;
+    }
+
+    .news-section .download a.guard-btn {
+      height: 106px;
+      background-position: 0 -350px;
+    }
+
+    .news-section .download a.experience-btn {
+      height: 108px;
+      background-position: 0 -461px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="main main_wrapper">
+    <div class="news-section">
+      <div class="banner">
+        <ul class="image-list">
+          <li class="item">
+            <a href="">
+              <img src="https://ossweb-img.qq.com/upload/adw/image/194/20240318/cf96dcef54360fa5962627370bca5484.jpeg"
+                alt="Image 1">
+            </a>
+          </li>
+          <li class="item">
+            <a href="">
+              <img src="https://ossweb-img.qq.com/upload/adw/image/194/20240409/b1c9785a89de79049228169db7754c31.jpeg"
+                alt="Image 2">
+            </a>
+          </li>
+          <li class="item">
+            <a href="">
+              <img src="https://ossweb-img.qq.com/upload/adw/image/194/20240408/fbf58c720371931893ff4ecf26b45e9a.jpeg"
+                alt="Image 3">
+            </a>
+          </li>
+          <li class="item">
+            <a href="">
+              <img src="https://ossweb-img.qq.com/upload/adw/image/194/20240104/a7e344498c8e5e04fcbbd366e13c5209.jpeg"
+                alt="Image 4">
+            </a>
+          </li>
+          <li class="item">
+            <a href="">
+              <img src="https://ossweb-img.qq.com/upload/adw/image/194/20240318/6e1d41ddb62abc0a6939c0b0f4cf0766.jpeg"
+                alt="Image 5">
+            </a>
+          </li>
+        </ul>
+        <ul class="title-list">
+          <li class="item active">
+            <a href="#">神州地方志</a>
+          </li>
+          <li class="item">
+            <a href="#">荣耀大话王</a>
+          </li>
+          <li class="item">
+            <a href="#">K甲TOP5</a>
+          </li>
+          <li class="item">
+            <a href="#">云梦区域站上线</a>
+          </li>
+          <li class="item">
+            <a href="#">K甲线下赛</a>
+          </li>
+        </ul>
+      </div>
+      <div class="news"></div>
+      <div class="download">
+        <a class="download-btn" href="#"></a>
+        <a class="guard-btn" href="#"></a>
+        <a class="experience-btn" href="#"></a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const titleListEl = document.querySelector('.title-list');
+      const imageListEl = document.querySelector('.image-list');
+      const bannerEl = document.querySelector('.banner');
+      let currentIndex = 0;
+      let timeID;
+
+      titleListEl.addEventListener('mouseover', event => {
+        const itemEl = event.target.closest('.item');
+        if (!itemEl) return;
+
+        const index = [...titleListEl.children].indexOf(itemEl);
+        if (index !== -1) {
+          currentIndex = index;
+          updateBanner();
+        }
+      });
+
+      const updateBanner = () => {
+        imageListEl.style.transform = `translateX(-${currentIndex * 100}%)`;
+        titleListEl.querySelector('.active').classList.remove('active');
+        titleListEl.children[currentIndex].classList.add('active');
+      };
+
+      const startTimer = () => {
+        timeID = setInterval(() => {
+          currentIndex = (currentIndex + 1) % titleListEl.children.length;
+          updateBanner();
+        }, 3000);
+      };
+
+      bannerEl.addEventListener('mouseenter', () => clearInterval(timeID));
+      bannerEl.addEventListener('mouseleave', startTimer);
+
+      startTimer();
+    });
+  </script>
+</body>
+
+</html>

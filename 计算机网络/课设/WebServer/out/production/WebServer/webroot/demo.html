@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apple (中国大陆) - 官方网站</title>
+  <link rel="icon" href="./images/favicon.ico">
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/common.css">
+  <style>
+    .banner {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .banner .images {
+      position: relative;
+      height: 550px;
+
+      transition: all 500ms ease;
+    }
+
+    .banner .images .item {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      overflow: hidden;
+      transition: opacity 1000ms ease;
+    }
+
+    .banner .images .item img {
+      position: relative;
+      transform: translate(-50%);
+      left: 50%;
+      width: 1920px;
+      height: 550px;
+    }
+
+    .indicator {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 42px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .indicator .item {
+      width: 8px;
+      height: 8px;
+      margin: 0 10px;
+      border-radius: 50%;
+      background-color: #aaa;
+      cursor: pointer;
+    }
+
+    .indicator .item.active {
+      background-color: #f00;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="banner">
+    <ul class="images">
+    </ul>
+    <div class="control">
+      <button class="prev">上一个</button>
+      <button class="next">下一个</button>
+    </div>
+    <div class="indicator">
+    </div>
+  </div>
+
+  <script src="./json/banner_data.js"></script>
+  <script>
+    /*
+      1.修改布局(css中)
+      2.需要让轮播结构: 最后一个位置添加第一个元素, 最前面位置添加最后一个元素
+        * 调整这两个的left值
+      3.对currentIndex的判断条件放到transform后面
+      4.如果滚动到添加的第一个元素
+    */
+    var bannersCount = banners.length
+    var animationDuration = 500
+
+    // 0.banner的serverURL
+    var bannerServerURL = "https://res.vmallres.com/"
+
+    // 1.根据数据动态添加页面内容
+    // 1.1. 动态添加图片相关内容
+    var imagesEl = document.querySelector(".images")
+    var activeItemEl = null
+    for (var i = 0; i < banners.length; i++) {
+      // 获取数据
+      var banner = banners[i]
+
+      // 创建li元素
+      var itemEl = document.createElement("li")
+      itemEl.classList.add("item")
+      if (i === 0) {
+        itemEl.classList.add("active")
+        activeItemEl = itemEl
+      }
+      imagesEl.append(itemEl)
+
+      // 设置itemEl的样式(left)
+      itemEl.style.left = `${i * 100}%`
+
+      // 创建img元素
+      var imgEl = document.createElement("img")
+      imgEl.src = `${bannerServerURL}${banner.imgUrl}`
+      itemEl.append(imgEl)
+    }
+
+    // 追加:(无限轮播), 最后和最前分别添加一个元素
+    var firstItem = imagesEl.children[0].cloneNode(true)
+    var lastItem = imagesEl.children[bannersCount - 1].cloneNode(true)
+    imagesEl.append(firstItem)
+    imagesEl.prepend(lastItem)
+    // 位置调整
+    lastItem.style.left = "-100%"
+    firstItem.style.left = `${bannersCount * 100}%`
+
+
+    // 1.2. 动态添加指示器内容
+    var indicatorEl = document.querySelector(".indicator")
+    for (var i = 0; i < bannersCount; i++) {
+      var itemEl = document.createElement("div")
+      itemEl.classList.add("item")
+      if (i === 0) {
+        itemEl.classList.add("active")
+      }
+      indicatorEl.append(itemEl)
+
+      // 监听指示器item的点击
+      itemEl.index = i
+      itemEl.onclick = function() {
+        previousIndex = currentIndex
+        currentIndex = this.index
+        switchBannerItem()
+      }
+    }
+
+    // 2.监听按钮的点击
+    var previousIndex = 0
+    var currentIndex = 0
+    var controlEl = document.querySelector(".control")
+    var prevBtnEl = controlEl.querySelector(".prev")
+    var nextBtnEl = controlEl.querySelector(".next")
+    prevBtnEl.onclick = function() {
+      // 找到上一个
+      previousIndex = currentIndex
+      currentIndex--
+
+      // 让currentIndex变成active状态, 让previous变成普通的状态
+      switchBannerItem()
+    }
+    nextBtnEl.onclick = function() {
+      nextSwitch()
+    }
+
+    // 3.自动轮播效果
+    var timer = null
+    startTimer()
+
+    // 4.暂停自动轮播
+    var bannerEl = document.querySelector(".banner")
+    bannerEl.onmouseenter = function() {
+      stopTimer()
+    }
+    bannerEl.onmouseleave = function() {
+      startTimer()
+    }
+
+    // 对功能封装的函数
+    // 封装到函数: switchBannerItem
+    function switchBannerItem() {
+      // 1.切换整个imagesEl的transform
+      imagesEl.style.transition = `all ${animationDuration}ms ease`
+      imagesEl.style.transform = `translateX(${-currentIndex * 100}%)`
+
+      if (currentIndex === bannersCount) {
+        currentIndex = 0
+        fixBannerPosition()
+      } else if (currentIndex === -1) {
+        currentIndex = bannersCount - 1
+        fixBannerPosition()
+      }
+
+      // 2.切换指示器的item
+      var currentInItemEl = indicatorEl.children[currentIndex]
+      var previousInItemEl = indicatorEl.children[previousIndex]
+      previousInItemEl.classList.remove("active")
+      currentInItemEl.classList.add("active")
+    }
+
+
+    // 封装到函数: 播放下一个
+    function nextSwitch() {
+      // 找到下一个
+      previousIndex = currentIndex
+      currentIndex++
+
+      // 让currentIndex变成active状态, 让previous变成普通的状态
+      switchBannerItem()
+    }
+
+    // 封装到函数: 开启定时器
+    function startTimer() {
+      if (timer) return;
+      timer = setInterval(function() {
+        nextSwitch()
+      }, 3000);
+    }
+    function stopTimer() {
+      if (!timer) return;
+      clearInterval(timer)
+      timer = null // 清除定时器之后, 必须timer赋值为null
+    }
+
+    // 封装到函数: 修正位移的位置
+    function fixBannerPosition() {
+      setTimeout(function() {
+        imagesEl.style.transition = "none"
+        imagesEl.style.transform = `translateX(${-currentIndex*100}%)`
+      }, animationDuration)
+    }
+
+    // 通过window的焦点
+    document.onvisibilitychange = function() {
+      console.log("可见性发生改变", document.visibilityState)
+      if (document.visibilityState === "visible") {
+        startTimer()
+      } else if (document.visibilityState === "hidden") {
+        stopTimer()
+      }
+    }
+  </script>
+
+</body>
+</html>
