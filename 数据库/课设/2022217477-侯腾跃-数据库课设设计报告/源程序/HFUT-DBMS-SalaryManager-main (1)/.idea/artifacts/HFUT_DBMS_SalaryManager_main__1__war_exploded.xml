@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="HFUT-DBMS-SalaryManager-main (1):war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/HFUT_DBMS_SalaryManager_main__1__war_exploded</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="HFUT-DBMS-SalaryManager-main (1)" />
+        </element>
+      </element>
+      <element id="javaee-facet-resources" facet="HFUT-DBMS-SalaryManager-main (1)/web/Web" />
+      <element id="javaee-facet-resources" facet="HFUT-DBMS-SalaryManager-main (1)/web/Web2" />
+      <element id="javaee-facet-resources" facet="HFUT-DBMS-SalaryManager-main (1)/web/Web3" />
+      <element id="javaee-facet-resources" facet="HFUT-DBMS-SalaryManager-main (1)/web/Web4" />
+    </root>
+  </artifact>
+</component>

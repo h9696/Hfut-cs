@@ -1,0 +1,225 @@
+@charset "gb2312";
+/* CSS Document */
+
+
+* { font-size:20px;}
+body {
+    margin: 0;
+    background:url(../images/background.jpg);
+    background-size:cover;
+}
+.container{
+    width: 100vw;
+    height:80vh;
+    display:flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+
+}
+.login-form{
+    width:300px;
+    height: 400px;
+    display: flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding: 40px;
+    text-align: center;
+    position: relative;
+    z-index: 100;
+    background: rgba(245, 245, 245, 0.8);
+    border-radius: 18px;
+    overflow : hidden;
+    margin-top: 10%;
+}
+
+.infoBox{
+    width:300px;
+    height: 200px;
+    display: flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding: 40px;
+    text-align: center;
+    position: relative;
+    z-index: 100;
+    background: rgba(245, 245, 245, 0.85);
+    border-radius: 18px;
+    overflow : hidden;
+    margin-top: 5%;
+}
+
+.msgBox {
+    width:300px;
+    height: 400px;
+    display: flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding: 40px;
+    text-align: left;
+    position: relative;
+    z-index: 100;
+    background: whitesmoke;
+    border-radius: 18px;
+    overflow : hidden;
+    margin-top: 10%;
+}
+
+.updateBox {
+    width:300px;
+    height: 400px;
+    display: flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding: 40px;
+    text-align: left;
+    position: relative;
+    z-index: 100;
+    background: whitesmoke;
+    border-radius: 18px;
+    overflow : hidden;
+    margin-top: 10%;
+}
+
+.replyBox {
+    width:300px;
+    height: 430px;
+    display: flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding: 40px;
+    text-align: left;
+    position: relative;
+    z-index: 100;
+    background: whitesmoke;
+    border-radius: 18px;
+    overflow : hidden;
+    margin-top: 10%;
+}
+
+.signInBox{
+
+    width: 300px;
+    height: 430px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px;
+    background: rgba(245, 245, 245, 0.8);
+    border-radius: 18px;
+    margin-top: 10%;
+}
+
+p {
+    margin-top: 30px;
+    margin-left: 20px;
+}
+
+.alert {
+    padding: 100px;
+}
+
+#listNodes thead{
+    border-top-width: 1px;
+    border-top-style: solid;
+    font-size: 18px;
+    border-top-color: rgb(56, 56, 56);
+}
+#listNodes {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgb(230, 189, 189);
+    width: 800px;
+    position: relative;
+    top: 20px;
+}
+
+#listNodes td, #listNodes th {
+    padding: 5px 10px;
+    font-size: 15px;
+    color: rgb(255, 209, 221);
+
+}
+
+/* Alternating background colors */
+#listNodes tr:nth-child(even) {
+    background-color: rgba(87, 87, 117, 0.5);
+}
+#listNodes tr:nth-child(odd) {
+    background-color: rgba(77, 71, 103, 0.5);
+}
+.container2{
+    width: 100vw;
+    height:80vh;
+    display:flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+
+}
+.form-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 20px;
+    width: 100%;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+}
+
+.button-wrapper {
+    margin-left: 10px;
+    margin-bottom: 17px;
+}
+
+.table-wrapper {
+    position: absolute;
+    top: 140px;
+}
+
+.nav-wrapper {
+    position: absolute;
+    top: 70px;
+}
+
+.page-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 420px;
+    width: 100%;
+}
+
+.title {
+    font-size: 28px;
+    color: slategrey;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.radio-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+a:link{color:deepskyblue;}
+a:visited{color:deepskyblue;}
+a:hover{color:deepskyblue;text-decoration:none;}
